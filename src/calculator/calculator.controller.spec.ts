@@ -28,9 +28,14 @@ describe('CalculatorController', () => {
   });
 
   it('should throw an error when adding r and 3', () => {
-       
-    expect(() => {controller.getSum('r', 3));
-    }).toThrow();    
-  
+    expect(() => {
+      controller.getSum('r', 3)
+    }).toThrow(HttpException);
+  });
+
+  it('should throw an error when adding 2 and s', () => {
+    expect(() => {
+      controller.getSum(2, 's')
+    }).toThrow(HttpException);
   });
 });

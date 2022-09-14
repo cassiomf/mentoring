@@ -23,7 +23,10 @@ export class CalculatorController {
     const vl1 = Number(value1);
     const vl2 = Number(value2);
     if (Number.isNaN(vl1)) {
-      throw new Error(value1 + ' is not a number!');
+      throw new HttpException(
+        value1 + ' is not a number!',
+        HttpStatus.BAD_REQUEST,
+      );
     }
     if (Number.isNaN(vl2)) {
       throw new HttpException(
