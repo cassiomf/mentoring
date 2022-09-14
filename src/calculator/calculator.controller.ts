@@ -19,10 +19,7 @@ export class CalculatorController {
     status: 200,
     description: 'The sum of two values',
   })
-  getSum(
-    @Param('value1') value1: number,
-    @Param('value2') value2: number,
-  ): number {
+  getSum(@Param('value1') value1: any, @Param('value2') value2: any): number {
     const vl1 = Number(value1);
     const vl2 = Number(value2);
     if (Number.isNaN(vl1)) {
