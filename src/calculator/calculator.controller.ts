@@ -44,8 +44,8 @@ export class CalculatorController {
     description: 'The product of two values',
   })
   getProduct(
-    @Param('value1') value1: number,
-    @Param('value2') value2: number,
+    @Param('value1') value1: any,
+    @Param('value2') value2: any,
   ): number {
     const vl1 = Number(value1);
     const vl2 = Number(value2);

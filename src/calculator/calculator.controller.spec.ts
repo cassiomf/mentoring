@@ -38,4 +38,40 @@ describe('CalculatorController', () => {
       controller.getSum(2, 's')
     }).toThrow(HttpException);
   });
+
+  it('should throw an error message when adding r and 3', () => {
+    expect(() => {
+      controller.getSum('r', 3)
+    }).toThrowError('r is not a number!');
+  });
+
+  it('should throw an error message when adding 2 and s', () => {
+    expect(() => {
+      controller.getSum(2, 's')
+    }).toThrowError('s is not a number!');
+  });
+
+  it('should throw an error when multiplying r and 3', () => {
+    expect(() => {
+      controller.getProduct('r', 3)
+    }).toThrow(HttpException);
+  });
+
+  it('should throw an error when multiplying 2 and s', () => {
+    expect(() => {
+      controller.getProduct(2, 's')
+    }).toThrow(HttpException);
+  });
+
+  it('should throw an error message when multiplying r and 3', () => {
+    expect(() => {
+      controller.getProduct('r', 3)
+    }).toThrowError('r is not a number!');
+  });
+
+  it('should throw an error message when multiplying 2 and s', () => {
+    expect(() => {
+      controller.getProduct(2, 's')
+    }).toThrowError('s is not a number!');
+  });
 });
