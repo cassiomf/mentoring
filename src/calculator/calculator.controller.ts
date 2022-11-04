@@ -6,6 +6,7 @@ import {
   Param,
 } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
+import { CalculatorHelper } from '../helper/CalculatorHelper';
 
 @Controller('calculator')
 export class CalculatorController {
@@ -20,21 +21,7 @@ export class CalculatorController {
     description: 'The sum of two values',
   })
   getSum(@Param('value1') value1: any, @Param('value2') value2: any): number {
-    const vl1 = Number(value1);
-    const vl2 = Number(value2);
-    if (Number.isNaN(vl1)) {
-      throw new HttpException(
-        value1 + ' is not a number!',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    if (Number.isNaN(vl2)) {
-      throw new HttpException(
-        value2 + ' is not a number!',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-    const result: number = vl1 + vl2;
+    const result: number = CalculatorHelper.performSum(value1, value2);
     return result;
   }
 

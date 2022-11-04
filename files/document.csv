@@ -1,4 +1,4 @@
-ID;Value;Date
-1;Car;2022-09-27
-2;Book;2022-09-28
-3;Tree;2022-09-29
+Operation;Value1;Value2
+SUM;1;2
+PRODUCT;2;5
+SUM;3;4
