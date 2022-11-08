@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   HttpStatus,
-  ParseFilePipe,
   ParseFilePipeBuilder,
   Post,
   UploadedFile,
@@ -11,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiResponse } from '@nestjs/swagger';
+import { parse } from 'csv-parse';
+import * as fs from 'fs';
 
 @Controller('read-file')
 export class ReadFileController {
@@ -45,6 +46,22 @@ export class ReadFileController {
     )
     file: Express.Multer.File,
   ) {
+    const headers = ['Operation', 'Value1', 'Value2'];
+    console.log('file: ', file);
+    const fileContent = fs.readFileSync(file.buffer, { encoding: 'utf-8' });
+    parse(
+      fileContent,
+      {
+        delimiter: ';',
+        columns: headers,
+      },
+      (error, result: any[]) => {
+        if (error) {
+          console.error(error);
+        }
+        console.log('Result', result);
+      },
+    );
     return {
       file: file.buffer.toString(),
     };
