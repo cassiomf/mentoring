@@ -12,6 +12,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiResponse } from '@nestjs/swagger';
 import { parse } from 'csv-parse';
 import * as fs from 'fs';
+import { CalculatorHelper } from '../helper/CalculatorHelper';
 
 @Controller('read-file')
 export class ReadFileController {
@@ -48,7 +49,7 @@ export class ReadFileController {
   ) {
     const headers = ['Operation', 'Value1', 'Value2'];
     console.log('file: ', file);
-    const fileContent = fs.readFileSync(file.buffer, { encoding: 'utf-8' });
+    const fileContent = fs.readFileSync('/Users/i567182/workspace/calculator/mentoring/files/document.csv', { encoding: 'utf-8' });
     parse(
       fileContent,
       {
@@ -59,6 +60,16 @@ export class ReadFileController {
         if (error) {
           console.error(error);
         }
+        result.forEach((row) => {
+          console.log('linha: ', row);
+          if (row.Operation === 'SUM') {
+            console.log('É uma soma!');
+            const sum = CalculatorHelper.performSum(row.Value1, row.Value2);
+            console.log(sum);
+          } else if (row.Operation === 'PRODUCT') {
+            console.log('É um produto!');
+          }
+        });
         console.log('Result', result);
       },
     );
