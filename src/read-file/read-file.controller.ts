@@ -13,6 +13,7 @@ import { ApiResponse } from '@nestjs/swagger';
 import { parse } from 'csv-parse';
 import * as fs from 'fs';
 import { CalculatorHelper } from '../helper/CalculatorHelper';
+import { ResultDataDTO } from './dto/ResultDataDTO';
 
 @Controller('read-file')
 export class ReadFileController {
@@ -47,8 +48,16 @@ export class ReadFileController {
     )
     file: Express.Multer.File,
   ) {
+    const resultData: ResultDataDTO[] = this.test(file);
+    return resultData;
+  }
+
+  private test(file: Express.Multer.File): ResultDataDTO[] {
+
     const headers = ['Operation', 'Value1', 'Value2'];
-    const fileContent = file.buffer.toString('utf8');
+    const fileContent = file.buffer.toString();
+
+    let resultData: ResultDataDTO[] = new Array<ResultDataDTO>();
 
     parse(
       fileContent,
@@ -57,24 +66,28 @@ export class ReadFileController {
         columns: headers,
       },
       (error, result: any[]) => {
-        if (error) {
-          console.error(error);
-        }
-        result.forEach((row) => {
-          console.log('linha: ', row);
+        for(const row of result) {
           if (row.Operation === 'SUM') {
-            console.log('É uma soma!');
             const sum = CalculatorHelper.performSum(row.Value1, row.Value2);
-            console.log(sum);
+            resultData.push({
+              operation: 'SUM',
+              result: sum,
+            });
           } else if (row.Operation === 'PRODUCT') {
-            console.log('É um produto!');
+            const product = CalculatorHelper.performProduct(
+              row.Value1,
+              row.Value2,
+            );
+            resultData.push({
+              operation: 'PRODUCT',
+              result: product,
+            });
           }
-        });
-        console.log('Result', result);
+        }
+        return resultData;
       },
     );
-    return {
-      file: file.buffer.toString(),
-    };
+
+    return resultData;
   }
 }
