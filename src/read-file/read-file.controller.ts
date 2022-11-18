@@ -48,8 +48,8 @@ export class ReadFileController {
     file: Express.Multer.File,
   ) {
     const headers = ['Operation', 'Value1', 'Value2'];
-    console.log('file: ', file);
-    const fileContent = fs.readFileSync('/Users/i567182/workspace/calculator/mentoring/files/document.csv', { encoding: 'utf-8' });
+    const fileContent = file.buffer.toString('utf8');
+
     parse(
       fileContent,
       {
